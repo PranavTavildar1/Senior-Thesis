@@ -1,0 +1,61 @@
+% !TEX TS-program = pdflatexmk
+\documentclass[12pt]{article}
+
+%% preamble: Keep it clean; only include those you need
+\usepackage{amsmath}
+\usepackage[margin = 1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+
+% for space filling
+\usepackage{lipsum}
+% highlighting hyper links
+\usepackage[colorlinks=true, citecolor=blue]{hyperref}
+
+
+%% meta data
+
+\title{Proposal: Sentiment Analysis of Twitter in Relation to Fossil Fuel Stock Prices}
+\author{Pranav Tavildar\\
+  University of Connecticut
+}
+
+\begin{document}
+\maketitle
+
+
+\paragraph{Introduction}
+Fossil fuel companies in the United States spends billions of dollars on advertising in order to sway public sentiment on fossil fuels. This has considerable influence on the way which the public views fossil fuels and in turn might affect stock prices.
+
+\paragraph{Specific Aims}
+The aim of this paper is to use the popular deep learning model, Long Short Term Memory(LSTM) which can be used for sentiment analysis and classification in order to perform exploratory analysis on Twitter sentiment of fossil Fuels and determine how sentiment correlates to changes in stock prices.
+
+\paragraph{Data}
+The data being used to analyze sentiment will be gathered from Twitter using the Twitter APi. Ideally I will be able to gather data mentioning the twitters of the following tip 6 oil producing corporations in the United States:
+\begin{itemize}
+    \item BP
+    \item Chevron
+    \item ConocoPhilips
+    \item ExxonMobil
+    \item Occidental Petroleum
+    \item Shell
+\end{itemize}
+
+Then I would use historical stock from the NASDAQ to observe correlation between Twitter Sentiment and the stock prices,
+
+\paragraph{Research Design and Methods}
+LSTMs are a special type of Recurrent Neural Network that use loops in order to better handle long term dependencies. This is done through the use of forget gates and learn gates. Without getting too technical for the purpose of this proposal, the LSTM will be used for the natural language processing of the twitter sentiment in order to assign sentiment scores. Eventually these will be plotted and the data will be compared to the stock history data using Pearson-r Correlation. If strong correlation is discovered, I might try to create a model that forecasts stock price of the aforementioned companies depending on the twitter sentiment.
+
+\paragraph{Discussion}
+While LSTMs have been used before to correlate climate change on economic growth in Brazil (\cite{mele2021nature}) and sentiment analysis of climate change on twitter has been done before(\cite{dahal2019topic}) , this paper would be the first to discuss using LSTMs to analyze correlation against stock values of the companies.  As mentioned earlier, this approach will involve the use of LSTMs which perform well with time series data. There have been some papers that have been written before that applied LSTMs to forecast stock prices such as \cite{ko2021lstm} . This approach might be an interesting one to explore in this paper.
+
+
+\paragraph{Conclusion}
+This project will require a significant amount of development and expansion before analysis can take place but analyzing the effect of public sentiment on stock prices of fossil fuel companies can provide valuable insight into how public opinion can be used to augment or reduce the effects of climate change.
+
+
+\bibliography{propreferences}
+\bibliographystyle{chicago}
+
+\end{document}
