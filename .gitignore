@@ -19,7 +19,7 @@ manuscript/*.pdf
 */*.ttt
 */*.fdb_latexmk
 */*.fls
-*/*.DStore
+*/*.DS_Store
 
 *.docx
 .Rhistory
