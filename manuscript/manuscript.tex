@@ -86,24 +86,19 @@ sentiment analysis.
 	As a publicly traded company, Chevron's stock price is determined by supply and demand in the market. Generally, this is influenced by factors such as market dynamics, economic conditions and changes to economic policy. Through this paper, we seek to determine whether this can be predicted or determined through observing public speculation on Twitter, the "virtual public square." Being able to determine whether there exists a correlation between public sentiment and the stock price might prove as a valuable indicator for many groups such as investors, activists, and companies officials to determine how much of a correlation a change in public opinion has to the stock value.  	
 %\paragraph{Review of the Literature}
 \paragraph{}
-	To quantify public opinion, this paper uses a machine learning technique known as sentiment analysis \cite{medhat2014sentiment} which uses natural language processing to determine whether the sentiment towards any subject is positive or negative and assigns it a score.
+	To quantify public opinion, this paper uses a machine learning technique known as sentiment analysis \citep{medhat2014sentiment} which uses natural language processing to determine whether the sentiment towards any subject is positive or negative and assigns it a score.
 \paragraph{}
-	 Some papers in the literature use this technique in relation to analyzing activity in the stock market. Koosha Golmohammadi and Osmar R. Zaiane for instance use sentiment analysis with Twitter data to improve their Contextual Anomaly Detection(CAD) model in order to detect Market Manipulation in the United States and Canada \cite{golmohammadi2017sentiment}. Furthermore, Lu-Tao Zhao and Guan-Rong Zheng web text and applied Sentiment Analysis in order to do Oil Price forecasting \cite{zhao2019forecasting}. This concept has also been applied in order to predict one step ahead of the closing price of the stock market in Thailand using a hybrid model composed of Principle Component Analysis (PCA) for Data Processing (Dimensionality Reduction), Empirical Mode Distribution (EMD) for signal interpretation and data preprocessing, and the Long-Short-Term-Memory(LSTM) model, a specialized type of recurrent neural network for the sentiment analysis. \cite{srijiranon2022hybrid}
+	 Some papers in the literature use this technique in relation to analyzing activity in the stock market. Koosha Golmohammadi and Osmar R. Zaiane for instance use sentiment analysis with Twitter data to improve their Contextual Anomaly Detection(CAD) model in order to detect Market Manipulation in the United States and Canada \citep{golmohammadi2017sentiment}. Furthermore, Lu-Tao Zhao and Guan-Rong Zheng web text and applied Sentiment Analysis in order to do Oil Price forecasting \citep{zhao2019forecasting}. This concept has also been applied in order to predict one step ahead of the closing price of the stock market in Thailand using a hybrid model composed of Principle Component Analysis (PCA) for Data Processing (Dimensionality Reduction), Empirical Mode Distribution (EMD) for signal interpretation and data preprocessing, and the Long-Short-Term-Memory(LSTM) model, a specialized type of recurrent neural network for the sentiment analysis. \citep{srijiranon2022hybrid}
 \paragraph{}
-	While these methods have been tried and proven, as of writing this, the preferred method of analyzing sequence data for most natural language processing is through the use of transformer models. This type of model was first introduced in the paper "Attention is all you need" \cite{vaswani2017attention}. 
+	While these methods have been tried and proven, as of writing this, the preferred method of analyzing sequence data for most natural language processing is through the use of transformer models. This type of model was first introduced in the paper "Attention is all you need" \citep{vaswani2017attention}. 
 \paragraph{}
 	This model sought to improve the problems existing with the Recurrent Neural Network(RNN) model which used to be the preferred model for language processing tasks. Transformers have shown a lot of promise, outperforming its competitors in speed and accuracy for natural language processing tasks. Due to its novelty and its promising qualities, many are applying Transformers for various tasks, yet nobody has this used this approach to find out whether it is possible to find out the correlation between Twitter Sentiment and Stock prices of prominent fossil fuel corporations. In this paper, we specifically will focus on the Chevron Corporation (though in future iterations, we might extend this to multiple corporations in this field).
 %\paragraph{My Contribution}
 \paragraph{}
 	In this paper, we will explore using a BERT Transformer model to generate sentiment scores of twitter data from the year 2021 and compare with the 2021 stock prices of the Chevron Corporation (CVX) to determine whether there exists any significant correlation. 
 \paragraph{}
-	This following is a roadmap for this study: 
-	\begin{enumerate}
-	\item Describing the Data
-	\item Explaining the Statistical Methods and the Machine Learning Concepts 
-	\item Explaining the Results of our Paper
-	\item Conducting Discussion of this Study
-	\end{enumerate}
+	This following is a roadmap for this study: 1) Describing the Data, 2) Explaining the Statistical Methods and the Machine Learning Concepts, 3) Explaining the Results of our Paper, 4) Conducting Discussion of this Study
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec: datadesc}
 \section{Data Description}
@@ -111,7 +106,7 @@ sentiment analysis.
 	We use two datasets for this paper: topical twitter tweets from the year 2021 and historical stock data for CVX for the year 2021. 
 %%\paragraph{how the economic data was obtained}
 \paragraph{}
-	Gathering the Historic Stock data was the easiest part of the data collection process. The collection was done through Yahoo Finance's Historical Stock Data tool. The following is a plot of the highs and lows for the year 2021 generated using the matplotlib package for python \cite{Hunter_2007}.
+	Gathering the Historic Stock data was the easiest part of the data collection process. The collection was done through Yahoo Finance's Historical Stock Data tool. The following is a plot of the highs and lows for the year 2021 generated using the matplotlib package for python \citep{Hunter_2007}.
 
 \begin{figure}[!hb]
   \begin{center}
@@ -147,7 +142,7 @@ sentiment analysis.
 	The range of the stock value goes from 83.889 to 119.336 and is representative of the stock prices from January 4th, 2021 to December 30th, 2021. There are 251 days that the stock data was available for in 2021. This is because Chevron is a part of the New York Stock Exchange which is closed all day on Saturdays, Sundays and nine holidays a year. This was something that was taken into consideration when working with twitter data. 
 
 \paragraph{}
-	The twitter data was scraped using the python package snscrape \cite{justanotherarchivist_2022}. This is an open source library that allows for the scraping of twitter data without having to use the API. The code used to generate the twitter data can be found in code/datagen.py. In short, the process used to scrape the data was to first create some auxiliary functions for tasks such as determining how many tweets need to be gathered at a given time and create some functions to make it easier to pass in queries in the Twitter Search Scraper object. There are 2 things you can query for and that is by using either some topic keywords or the tweets from a specific user. 
+	The twitter data was scraped using the python package snscrape \citep{justanotherarchivist_2022}. This is an open source library that allows for the scraping of twitter data without having to use the API. The code used to generate the twitter data can be found in code/datagen.py. In short, the process used to scrape the data was to first create some auxiliary functions for tasks such as determining how many tweets need to be gathered at a given time and create some functions to make it easier to pass in queries in the Twitter Search Scraper object. There are 2 things you can query for and that is by using either some topic keywords or the tweets from a specific user. 
 	
 \paragraph{}
 	For the purpose of this paper, we scraped 5 tweets a day with the topic query "Chevron Oil" from January 1st 2021 to December 31st.  We then saved all the 1825 generated tweets as a csv and merged them with the CVX stock data on the Date axis after matching datatypes. This also omitted tweets which were created when the stock market was closed in order to simplify the analysis. Using this we were able to perform sentiment and calculate correlation.
@@ -162,7 +157,7 @@ sentiment analysis.
 
 
 \paragraph{The Transformer Model}
-	As we mentioned earlier, Transformers have shown a lot of promise, outperforming its competitors in speed and accuracy for natural language processing tasks. The BERT model seems to be particularly well suited for tasks of sentiment analysis. Transformers work based on the concept of "attention" which was introduced in "Attention is all you need" \cite{vaswani2017attention} is a deep learning model that was first used for computer vision models. Transformers create differential weights signaling which words in a sentence are the most critical to further process. This allows them to "forget"  irrelevant information which would use other critical resources.
+	As we mentioned earlier, Transformers have shown a lot of promise, outperforming its competitors in speed and accuracy for natural language processing tasks. The BERT model seems to be particularly well suited for tasks of sentiment analysis. Transformers work based on the concept of "attention" which was introduced in "Attention is all you need" \citep{vaswani2017attention} is a deep learning model that was first used for computer vision models. Transformers create differential weights signaling which words in a sentence are the most critical to further process. This allows them to "forget"  irrelevant information which would use other critical resources.
 	
 
 \begin{figure}[H]
@@ -192,7 +187,7 @@ sentiment analysis.
 % Text Node
 \draw (408,219) node [anchor=north west][inner sep=0.75pt]   [align=left] { Output Probabilites};
 \end{tikzpicture}
-\caption{In this figure we can observe a very simplified version of the Transformer model with its two major components, the encoder and the decoder. The encoder processes a text input through a stack of transformer layers. In some situations, another set of transformer layers, the decoder, can be used to predict a target output. Note that this model might be used for a task such as language translation.\cite{devlin2018bert}}\label{fig:fig2}
+\caption{In this figure we can observe a very simplified version of the Transformer model with its two major components, the encoder and the decoder. The encoder processes a text input through a stack of transformer layers. In some situations, another set of transformer layers, the decoder, can be used to predict a target output. Note that this model might be used for a task such as language translation.\citep{devlin2018bert}}\label{fig:fig2}
 \end{figure}
 
 \paragraph{}
@@ -215,7 +210,7 @@ For our Sentiment Analysis we will be using Bidirectional Encoder Representation
 This model was initially trained on Wikipedia and Google’s BooksCorpus which contain 2,500,000,000 words and 800,000,000 words respectively. Training of BERT was completed over a period of 4 days using 64 Tensor Processing Units running in parallel. With this much data, it is able to understand context clues making it a very effective model for the purposes of sentiment analysis.
 
 \paragraph{}
-We will be specifically using BERT-base which is a version of BERT with 12 transformation layers, and 768 Hidden Layers.\cite{muller_2022} This is more reasonable for the task we have at hand and we will implement this using the transformers package.
+We will be specifically using BERT-base which is a version of BERT with 12 transformation layers, and 768 Hidden Layers.\citep{muller_2022} This is more reasonable for the task we have at hand and we will implement this using the transformers package.
 
 \paragraph{Kendall Correlation}
 Kendall's Rank Tau coefficient is one of the most widely used methods for determining correlations between two variables that have a monotonic relationship. Before describing the equation, it is worth noting the assumptions of the Kendall Tau Correlation Test.
@@ -261,7 +256,7 @@ The sentiment analysis took approximately 12 minutes to run and the data generat
 \end{table}
 
 \paragraph{}
-To calculate correlation, we must make sure that the fundamental assumptions are satisfied. The data is continuous and monotonic so we can proceed with Kendall's correlation. We used pandas to calculate Kendall's correlation. The following is a heat map of the correlation plotted using the seaborn package for python \cite{Waskom2021}.
+To calculate correlation, we must make sure that the fundamental assumptions are satisfied. The data is continuous and monotonic so we can proceed with Kendall's correlation. We used pandas to calculate Kendall's correlation. The following is a heat map of the correlation plotted using the seaborn package for python \citep{Waskom2021}.
 
 \begin{figure}[H]
   \begin{center}
@@ -299,7 +294,7 @@ Given that the correlation it is negative, this indicates that there is a very m
 The major things to address as next steps are improving the data quality, quantity and analysis. I will also explore using the twitter API to gather tweets instead of using snscrape since the API is the prefered method of gathering tweets in professional contexts and this opens data gathering up to many more possibilities with new methods and feature information that could be gathered using the API query feature.  Having more tweets per day is also beneficial in improving the quality of analysis. 
 
 \paragraph{}
-Furthermore, using different data and methods would allow us to possibly create a model that can forecast stock pricing if the correlation is strong enough. This would be done in a manner similarly to \cite{zhao2019forecasting}. 
+Furthermore, using different data and methods would allow us to possibly create a model that can forecast stock pricing if the correlation is strong enough. This would be done in a manner similarly to \citep{zhao2019forecasting}. 
 
 This project will require much more development and expansion before a conclusion  can be determined but analyzing the effect of public sentiment on stock prices of fossil fuel companies can provide valuable insight into how public opinion can be used to augment or reduce the effects of climate change.
 \bigskip
