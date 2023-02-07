@@ -57,7 +57,7 @@ def GrabTweets(month,year,num_tweets_per_day,query):
                     since = (date.fromisoformat(since)+timedelta(days=1)).isoformat()
                     until = (date.fromisoformat(until)+timedelta(days=1)).isoformat()
                     break
-                tweets_list.append([tweet.date, tweet.id, tweet.content, tweet.user.username])
+                tweets_list.append([tweet.date, tweet.id, tweet.content, tweet.user.username,tweet.likeCount])
                 sleep(0.01)
                 counter += 1
                 pbar.update(1)
@@ -65,7 +65,7 @@ def GrabTweets(month,year,num_tweets_per_day,query):
     pbar.close()
 
     # Creating a DataFrame from the Tweets List Above
-    DF = pd.DataFrame(tweets_list, columns=['Date', 'Tweet ID', 'Text', 'Username'])
+    DF = pd.DataFrame(tweets_list, columns=['Date', 'Tweet ID', 'Text', 'Username', 'Likes'])
     
     
     # Write to CSV
@@ -78,20 +78,21 @@ def GrabTweets(month,year,num_tweets_per_day,query):
 #fetching data
 
 query = "Chevron Oil"
-year = 2021
-num_tweets_per_day = 5
+year = 2022
+num_tweets_per_day = 10
 
-months = range(1,13)
+#months = range(1,13)
+os.chdir("/Users/pranavtavildar/Desktop/Senior-Thesis/data")  
+#for i in months:
+GrabTweets(12,year,num_tweets_per_day,query) 
 
-for i in months:
-    GrabTweets(i,year,num_tweets_per_day,query) 
-
-#creating big csv
-os.chdir("/Users/pranavtavildar/Desktop/course-paper-or-presentation-PranavTavildar1/code")    
-extension = 'csv'
-all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
-#combine all files in the list
-combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
-#export to csv
-combined_csv.to_csv( "Chevron2021.csv", index=False, encoding='utf-8-sig')
+##This is for merging files lated
+# #creating big csv
+  
+# extension = 'csv'
+# all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
+# #combine all files in the list
+# combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
+# #export to csv
+# combined_csv.to_csv( "ChevronOil2022Jan.csv", index=False, encoding='utf-8-sig')
 
