@@ -56,3 +56,9 @@ Write hypothesis in paper
 - Direction for causal inference is unknown but we are not testing that
 - Create histogram to look at the distribution of the sentiment scores.
 
+# Meeting 4 Notes:
+
+- Obtained Rate of Return
+- Strategy for sentiment score is finidng weighted averages of days based on likes
+- Create the ARMA GARCH Model only on the Rate of Return
+- Then add sentiment score as another variable and do it again
