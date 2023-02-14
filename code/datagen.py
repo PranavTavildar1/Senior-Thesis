@@ -94,5 +94,5 @@ GrabTweets(12,year,num_tweets_per_day,query)
 # #combine all files in the list
 # combined_csv = pd.concat([pd.read_csv(f) for f in all_filenames ])
 # #export to csv
-# combined_csv.to_csv( "ChevronOil2022Jan.csv", index=False, encoding='utf-8-sig')
+# combined_csv.to_csv( "ChevronOil2022.csv", index=False, encoding='utf-8-sig')
 
