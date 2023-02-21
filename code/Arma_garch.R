@@ -1,0 +1,10 @@
+install.packages("rugarch")
+returns <- read.csv("/Users/pranavtavildar/Desktop/Senior-Thesis/data/returns.csv") # nolint
+returns_ts <- ts(returns[, 1], frequency = 252)
+arma_model <- arima(returns_ts, order = c(1, 0, 1))
+library(rugarch)
+garch_spec <- ugarchspec(variance.model = list(model = "sGARCH", garchOrder = c(1,1)), mean.model = list(armaOrder = c(1,1)))
+garch_model <- ugarchfit(garch_spec, data = returns_ts)
+summary(arma_model)
+residuals_garch <- residuals(garch_model)
+plot(residuals_garch)
