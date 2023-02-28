@@ -1,12 +1,36 @@
 library(rugarch)
 library(readr)
+library(forecast)
+library(tseries)
+#package: forecast, auto.arima method to fit the best arma model
 
 returns <- read.csv("/Users/pranavtavildar/Desktop/Senior-Thesis/data/returns.csv") # nolint
-returns_ts <- ts(returns[, 1], frequency = 252)
-arma_model <- arima(returns_ts, order = c(1, 0, 1))
+tryCatch({
+  x <- get.hist.quote(instrument = "cvx", start = "2021-01-01", end = "2022-12-31",
+                      quote = "Close")
+  plot(x)})
+ret <- diff(log(x))
+plot(ts(ret))
+returns_ts <- returns[-1,"return"]
+plot(returns_ts)
+arma_model <- auto.arima(ret,  max.D = 0, max.d = 0)
+arma_model
+#order for arma is 1,0
 
-garch_spec <- ugarchspec(variance.model = list(model = "sGARCH", garchOrder = c(1,1)), mean.model = list(armaOrder = c(1,1)))
-garch_model <- ugarchfit(garch_spec, data = returns_ts)
+#specifying model
+garch_spec <- ugarchspec(variance.model = list(model = "sGARCH", garchOrder = c(1,1)), mean.model = list(armaOrder = c(1,0)))
+garch_model2 <- ugarchfit(garch_spec, data = ret)
+
+garch_model <- garch(c(ret))
+
+summary(garch_model)
+summary(garch_model2)
+
+show(garch_model2)
+#increase sample size
+
+
+
 summary(arma_model)
 residuals_garch <- residuals(garch_model)
 plot(residuals_garch)
