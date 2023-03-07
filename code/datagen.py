@@ -57,7 +57,7 @@ def GrabTweets(month,year,num_tweets_per_day,query):
                     since = (date.fromisoformat(since)+timedelta(days=1)).isoformat()
                     until = (date.fromisoformat(until)+timedelta(days=1)).isoformat()
                     break
-                tweets_list.append([tweet.date, tweet.id, tweet.content, tweet.user.username,tweet.likeCount])
+                tweets_list.append([tweet.date, tweet.id, tweet.content,tweet.likeCount])
                 sleep(0.01)
                 counter += 1
                 pbar.update(1)
@@ -65,7 +65,7 @@ def GrabTweets(month,year,num_tweets_per_day,query):
     pbar.close()
 
     # Creating a DataFrame from the Tweets List Above
-    DF = pd.DataFrame(tweets_list, columns=['Date', 'Tweet ID', 'Text', 'Username', 'Likes'])
+    DF = pd.DataFrame(tweets_list, columns=['Date', 'Tweet ID', 'Text', 'Likes'])
     
     
     # Write to CSV
@@ -77,12 +77,12 @@ def GrabTweets(month,year,num_tweets_per_day,query):
 
 #fetching data
 
-query = "Chevron Oil"
+query = "CVX"
 year = 2022
 num_tweets_per_day = 10
 
 #months = range(1,13)
-os.chdir("/Users/pranavtavildar/Desktop/Senior-Thesis/data")  
+os.chdir("/Users/pranavtavildar/Desktop/Senior-Thesis/monthlydata")  
 #for i in months:
 GrabTweets(12,year,num_tweets_per_day,query) 
 
