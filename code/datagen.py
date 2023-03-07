@@ -86,7 +86,7 @@ os.chdir("/Users/pranavtavildar/Desktop/Senior-Thesis/data")
 #for i in months:
 GrabTweets(12,year,num_tweets_per_day,query) 
 
-##This is for merging files lated
+##This is for merging files later
 # #creating big csv
   
 # extension = 'csv'
