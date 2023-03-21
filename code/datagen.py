@@ -84,7 +84,7 @@ num_tweets_per_day = 10
 #months = range(1,13)
 os.chdir("/Users/pranavtavildar/Desktop/Senior-Thesis/data/monthlydata")  
 #for i in months:
-GrabTweets(12,year,num_tweets_per_day,query) 
+GrabTweets(11,year,num_tweets_per_day,query) 
 
 ##This is for merging files later
 # #creating big csv
