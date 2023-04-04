@@ -64,7 +64,7 @@
 \doublespace
 
 \begin{abstract}
-As a publicly traded company, the Chevron Corporation has the 11th highest market capitalization in the world with 361.57 billion dollars in traded stocks. There exist many social factors that contribute to this stock value but in this paper we seek to determine whether it is possible to see if any of these factors are reflected in public sentiment which can be observed in twitter.  This is done by using a BERT transformer architecture to assign a sentiment score for each tweet and afterwords, we try to determine if there is a correlation between stock price and daily sentiment using Kendall's tau statistic.
+As a publicly traded company, the Chevron Corporation has the 11th highest market capitalization in the world with 361.57 billion dollars in traded stocks. There exist many social factors that contribute to this stock value but in this paper we seek to determine whether it is possible to see if any of these factors are reflected in public sentiment which can be observed in twitter.  This is done by using a BERT transformer architecture to assign a sentiment score for each tweet and afterwords, we try to determine if there is a correlation between stock price and daily sentiment using an ARMA GARCH Model.
 
 \bigskip
 \noindent{\sc Keywords}:
@@ -152,10 +152,10 @@ sentiment analysis.
 \label{sec: methods}
 \section{Methods}
 
-\paragraph{}
-	The two primary methods we're going to be using in this paper for data analysis would be sentiment analysis using transformers and Kendall rank correlation. We will now go into details of how both work.
+\subsection{Data Collection}
+Twitter data related to the Chevron Corporation was collected using web scraping techniques. Specifically, tweets containing the term "CVX" were extracted from Twitter using the topic selection method provided by the snscrape\citep{justanotherarchivist_2022} Python wrapper. The tweets were collected for a period of 2 years, from January 1, 2021 to December 31, 2022 with 10 tweets being collected each day.
 
-
+\subsection{Sentiment Analysis}
 \paragraph{The Transformer Model}
 	As we mentioned earlier, Transformers have shown a lot of promise, outperforming its competitors in speed and accuracy for natural language processing tasks. The BERT model seems to be particularly well suited for tasks of sentiment analysis. Transformers work based on the concept of "attention" which was introduced in "Attention is all you need" \citep{vaswani2017attention} is a deep learning model that was first used for computer vision models. Transformers create differential weights signaling which words in a sentence are the most critical to further process. This allows them to "forget"  irrelevant information which would use other critical resources.
 	
@@ -191,44 +191,26 @@ sentiment analysis.
 \end{figure}
 
 \paragraph{}
-For our Sentiment Analysis we will be using Bidirectional Encoder Representations from Transformers(BERT), a transformer model created by Google which serves as a many-in-one tool for the most common Natural Language Processing Tasks:
-\begin{itemize}
-    \item Sentiment Analysis
-    \item Text Classification
-    \item Chatbots
-    \item Text Extraction
-    \item Machine Translation
-    \item Text Summarization
-    \item Market Intelligence
-    \item Auto-Correct
-    \item Intent Classification
-    \item Urgency Detection
-    \item Speech Recognition
-\end{itemize}
+We will be utilizing Bidirectional Encoder Representations from Transformers (BERT) for our sentiment analysis. BERT is a transformer model developed by Google that can perform multiple Natural Language Processing tasks such as sentiment analysis, text classification, chatbots, text extraction, machine translation, text summarization, market intelligence, auto-correct, intent classification, urgency detection, and speech recognition.
 
 \paragraph{}
 This model was initially trained on Wikipedia and Google’s BooksCorpus which contain 2,500,000,000 words and 800,000,000 words respectively. Training of BERT was completed over a period of 4 days using 64 Tensor Processing Units running in parallel. With this much data, it is able to understand context clues making it a very effective model for the purposes of sentiment analysis.
 
 \paragraph{}
-We will be specifically using BERT-base which is a version of BERT with 12 transformation layers, and 768 Hidden Layers.\citep{muller_2022} This is more reasonable for the task we have at hand and we will implement this using the transformers package.
+We will be specifically using BERT-base which is a version of BERT with 12 transformation layers, and 768 Hidden Layers.\citep{muller_2022} This is more reasonable for the task we have at hand and we will implement this using the Hugging Face transformers package. For each day, the average sentiment score of all tweets was calculated. Sentiment scores range from -1 to 1, where -1 represents a very negative sentiment and 1 represents a very positive sentiment.
 
-\paragraph{Kendall Correlation}
-Kendall's Rank Tau coefficient is one of the most widely used methods for determining correlations between two variables that have a monotonic relationship. Before describing the equation, it is worth noting the assumptions of the Kendall Tau Correlation Test.
-\begin{enumerate}
-	\item The data must be continuous. This means that the data must be numeric and may not contain any interruptions.
-	\item The data must be monotonic meaning that it has to be entirely increasing or decreasing
-	\end{enumerate}
-It is also important to understand the concept of concordant and discordant pairs before revealing the equation. Let  $(x_{1},y_{1}),...,(x_{n},y_{n}) $ and $(x_{1},y_{1}),...,(x_{n},y_{n})$ be a set of observations of the joint random variables X and Y.  If a pair $(x_{i},y_{i})$ and $(x_{j},y_{j})$ is concordant, then their sort order agrees. In other words, either both $ x_{i}>x_{j}$ and  $y_{i}>y_{j}$ holds or both $x_{i}<x_{j}$ and $y_{i}<y_{j}$. Otherwise, the pair is said to be discordant.
+\subsection{ARMA-GARCH Modeling}
+The daily returns for Chevron's stock (CVX) were obtained from calculating as the daily logarithmic difference of the closing prices. ARMA-GARCH modeling was then performed to investigate the relationship between the daily returns and the sentiment scores.
 
-\paragraph{}
-\begin{equation}
-  \label{eq:Kendall}
-   \tau = \frac{a-b}{a + b}
-\end{equation}
+First, an ARMA model was selected for the returns using the \texttt{auto.arima} function in the forecast package in R. The \texttt{max.D} and \texttt{max.d} parameters were set to 0 to avoid differencing in the ARMA model.
 
+Next, a GARCH model was fitted to the ARMA residuals using the \texttt{ugarchfit} function in the rugarch package in R. The sGARCH model was used for the variance with an order of (1,1) and the mean was modeled using the ARMA model selected earlier.
 
-\paragraph{}
-Where a is the number of concordant pairs and b is the number of discordant pairs. $\tau$ is a value in [0,1] where 0 indicates no correlation and 1 indicates perfect correlation.
+To investigate the impact of sentiment on stock returns, an ARIMAX model was fitted to the returns using the \texttt{arimax} function in the TSA package in R. The daily sentiment scores were included as an exogenous variable. An ARIMAX model was also fitted to the sentiment scores using the \texttt{auto.arima} function in the forecast package in R.
+
+Finally, a GARCHX model was fitted to the returns with sentiment scores using the \texttt{garchx} function in the garchx package in R. The order was set to (1,1), and the initial values for the GARCH coefficients were taken from the ARMA-GARCH model.
+
+For further analysis, a weighted sentiment score was calculated by assigning a weight to each sentiment score based on the number of tweets collected for that day. The weighted sentiment score was then used as an exogenous variable in the ARIMAX and GARCHX models, and the results were compared to those obtained using the unweighted sentiment score.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec: results}
