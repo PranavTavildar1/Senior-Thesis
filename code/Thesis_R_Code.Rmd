@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Loading Libraries
 
-```{r}
+```{r,results='hide'}
 library(rugarch)
 library(readr)
 library(forecast)
@@ -24,7 +24,12 @@ library(TSA)
 ```{r}
 stock_data <- read.csv("/Users/pranavtavildar/Desktop/Senior-Thesis/data/CVX_stock_data.csv")
 returns <- diff(log(stock_data$Close))
-plot(ts(returns))
+plot(ts(returns), main = "Returns", xlab = "Date", ylab = "Returns")
+output_path <- "/Users/pranavtavildar/Desktop/Senior-Thesis/FrontiersPoster/FrontiersPoster_files/poster_files/figures/returnsplot.png"
+
+png(file = output_path)
+dev.off()
+
 ```
 
 ## Here we use auto.arima to select the best arima model
@@ -59,6 +64,15 @@ sentiment_df <- read.csv("/Users/pranavtavildar/Desktop/Senior-Thesis/data/daily
 str(sentiment_df)
 str(returns)
 sentiment_df = sentiment_df[-1,]
+hist(sentiment_df$sentiment, main = "Sentiment Distribution", xlab = "Sentiment Score", ylab = "Frequency")
+
+
+
+output_path <- "/Users/pranavtavildar/Desktop/Senior-Thesis/FrontiersPoster/FrontiersPoster_files/poster_files/figures/sentimenthist.png"
+
+png(file = output_path)
+dev.off()
+
 ```
 
 ## Fitting Arima Model to the new data
