@@ -54,6 +54,9 @@ garch_model <- garch(returns)
 garch_model
 
 summary(arma_model)
+output_path <- "/Users/pranavtavildar/Desktop/Senior-Thesis/figures/fig4.pdf"
+
+pdf(file = output_path)
 residuals_garch <- residuals(garch_model)
 plot(residuals_garch)
 ```
@@ -64,13 +67,11 @@ sentiment_df <- read.csv("/Users/pranavtavildar/Desktop/Senior-Thesis/data/daily
 str(sentiment_df)
 str(returns)
 sentiment_df = sentiment_df[-1,]
+
+output_path <- "/Users/pranavtavildar/Desktop/Senior-Thesis/figures/fig3.pdf"
+
+pdf(file = output_path)
 hist(sentiment_df$sentiment, main = "Sentiment Distribution", xlab = "Sentiment Score", ylab = "Frequency")
-
-
-
-output_path <- "/Users/pranavtavildar/Desktop/Senior-Thesis/FrontiersPoster/FrontiersPoster_files/poster_files/figures/sentimenthist.png"
-
-png(file = output_path)
 dev.off()
 
 ```
