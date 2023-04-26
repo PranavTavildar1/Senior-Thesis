@@ -70,7 +70,7 @@
 As a publicly traded company, the Chevron Corporation has the 11th highest market capitalization in the world with 361.57 billion dollars in traded stocks. There exist many social factors that contribute to this stock value but this paper aims to establish a methodology to test whether public opinion in social media is informative in predicting stock price movement and its volatility for the Chevron Corporation stock(CVX). This is done by using a DistilBert transformer architecture to assign a sentiment score for each tweet and afterwords, we try to determine if there is a correlation between stock price and daily sentiment using an ARMA GARCH Model.
 
 
-\jy{alphabetical; no repeating words in title. Read my writing tips and practice them}
+%%\jy{alphabetical; no repeating words in title. Read my writing tips and practice them}
 %% did this
 \bigskip
 \noindent{\sc Keywords}:
@@ -82,9 +82,9 @@ sentiment analysis.
 
 \end{abstract}
 
-\jy{what do I recommend for linewidth?}
+%%\jy{what do I recommend for linewidth?}
 %% need the ebook
-\jy{Two figure labels are multiply defined. Read the log and fix the warnings}
+%%\jy{Two figure labels are multiply defined. Read the log and fix the warnings}
 %% could not find the figures
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -116,37 +116,37 @@ This following is a roadmap for this study: 1) Describing the Data, 2) Explainin
 For the period of 2021-2022,  CVX stock data and twitter tweets were collected for analysis.
 %%\paragraph{how the economic data was obtained}
 
-Historic Stock data for the Chevron Corporation was collected using Yahoo Finance's Historical Stock Data tool. The following is a figure that shows the fluctuations of the Stock Highs, the Stock Lows and the Closing Prices over the observed period that was generated using the matplotlib package for python \citep{Hunter_2007}. 
+Historic Stock data for the Chevron Corporation was collected using Yahoo Finance's Historical Stock Data tool. Figure ~\ref{fig:stockdata} shows the fluctuations of the Stock Highs, the Stock Lows and the Closing Prices over the observed period that was generated using the matplotlib package for python \citep{Hunter_2007}. 
 
-\jy{the figure x-labels are cutoff}
+%%\jy{the figure x-labels are cutoff}
 %%% fixed this
-\begin{figure}[!hb]
+\begin{figure}[tbp]
   \begin{center}
   \includegraphics[width=\textwidth]{../figures/fig1.pdf}
-  \caption{A plot of historic CVX stock data from 2021 to 2022}\label{fig:fig1}
+  \caption{A plot of historic CVX stock data from 2021 to 2022.}\label{fig:stockdata}
   \end{center}
 \end{figure}
 
 
-While the Highs and Lows might be informative in analysis, in order to concentrate the focus of this paper in a manner more similar to other financial data analyses, we will only experiment the Closing Price and the Returns which can be taken by taking the log difference of the Closing Prices. sample	
+While the Highs and Lows might be informative in analysis, in order to concentrate the focus of this paper in a manner more similar to other financial data analyses, we will only experiment the Closing Price and the Returns which can be taken by taking the log difference of the Closing Prices. 	
 
-\jy{The upper panel is repeating. Only keep one.}
+%%\jy{The upper panel is repeating. Only keep one.}
 %%%fixed this part
-\begin{figure}[!hb]
+\begin{figure}[tbp]
   \begin{center}
   \includegraphics[width=\textwidth]{../figures/fig2.pdf}
-  \caption{A plot of historic CVX stock data from 2021 to 2022 and the returns}\label{fig:fig2}
+  \caption{A plot of historic CVX stock data from 2021 to 2022 and the returns.}\label{fig:returns}
   \end{center}
 \end{figure}
 
 
-\jy{Use table styles from my template}
+%%\jy{Use table styles from my template}
 %%% Need link to the efor,
-We also used the data processing library Pandas in order to generate summary statistics as shown below:
-\begin{table}[!hb]
+We also used the data processing library Pandas in order to generate summary statistics as shown in Table~\ref{tab:sumstat}
+\begin{table}[tbp]
   \begin{center}
-    \caption{Summary Statistics for the Chevron Stock data}
-    \label{tab:table1}
+    \caption{Summary Statistics for the Chevron Stock Data.}
+    \label{tab:sumstat}
     \begin{tabular}{l|c|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
       \textbf{Metrics} & \textbf{Close} & \textbf{Returns}\\
       \hline
@@ -208,8 +208,8 @@ As mentioned in the first section, Transformers models have shown a lot of promi
 % Text Node
 \draw (408,219) node [anchor=north west][inner sep=0.75pt]   [align=left] { Output Probabilites};
 \end{tikzpicture}
-\caption{In this figure we can observe a very simplified version of the Transformer model with its two major components, the encoder and the decoder \citep{devlin2018bert}.}
-\label{fig:fig2}
+\caption{In this figure we can observe a very simplified version of the Transformer model with its two major components, the encoder and the decoder. \citep{devlin2018bert}.}
+\label{fig:transformer}
 \end{figure}
 The Transformer architecture consists of two main components: an encoder and a decoder.The encoder takes in the input sequence and generates a sequence of hidden representations, which are then passed to the decoder. The decoder then uses the encoder's output to generate the final output sequence.
 
@@ -245,33 +245,37 @@ The sentiment analysis took approximately 12 minutes to run and the data generat
 \begin{figure}[tbp]
   \begin{center}
   \includegraphics[width=\textwidth]{../figures/fig3.pdf}
-  \caption{Sentiment Distribution }\label{fig:fig2}
+  \caption{Sentiment Distribution Histogram.}\label{fig:sentimenthist}
   \end{center}
 \end{figure}
 
 
 
-ARMA-GARCH models have several assumptions, including the stationarity of the time series data, the presence of autoregressive and moving average processes, the normality and lack of autocorrelation in the residuals, the constant conditional variance of the data, the absence of autoregressive conditional heteroscedasticity effects, and a sufficient sample size. These assumptions are important to ensure unbiased parameter estimates and accurate predictions. Some of these assumptions such as the normality and lack of autocorrelation in the residuals, the constant conditional variance of the data, the absence of autoregressive conditional heteroscedasticity effects were checked manually by making plots using R as such:
+ARMA-GARCH models have several assumptions, including the stationarity of the time series data, the presence of autoregressive and moving average processes, the normality and lack of autocorrelation in the residuals, the constant conditional variance of the data, the absence of autoregressive conditional heteroscedasticity effects, and a sufficient sample size. These assumptions are important to ensure unbiased parameter estimates and accurate predictions. Some of these assumptions such as the normality and lack of autocorrelation in the residuals, the constant conditional variance of the data, the absence of autoregressive conditional heteroscedasticity effects were checked manually by making plots using R shown in Figure~\ref{fig:garchvar} 
 
-\jy{reference to figures/tables by their labels. Never H or h. Always tbp for floating locations. }
-%% Confused
-\begin{figure}[!hb]
+%%\jy{reference to figures/tables by their labels. Never H or h. Always tbp for floating locations. }
+\begin{figure}[tbp]
   \begin{center}
   \includegraphics[width=\textwidth]{../figures/fig4.pdf}
-  \caption{Garch Model Residuals}\label{fig:fig1}
+  \caption{Garch Model Residuals.}\label{fig:garchvar}
   \end{center}
 \end{figure}
 
-\jy{a blank line means a new paragraph}
 
-and those that remained were checked by the rugarch \citep{rugarch}, readr \citep{readr}, forecast \citep{forecast}, tseries \citep{tseries}, garchx \citep{garchx}, and TSA \citep{TSA} packages.
-\jy{space before citep}
+
+%%\jy{space before citep}
 %%did it
 
+%%% we conducted a z-test on the basis of coefficient
+%%% arima two log-liklihoods, should be similar
+%%% do the same thing with garch
+In this analysis, we constructed an ARMA-GARCH model using daily sentiment data and compared it to a model that included daily sentiment as an exogenous variable. The ARMA part of the model captures the autocorrelation and moving average patterns in the data, while the GARCH part models the volatility or conditional heteroskedasticity of the data. To investigate whether daily sentiment as an exogenous variable has any effect on the model, we conducted z-tests to determine whether the addition of this new variable had a significant effect on the ARMA-GARCH model.
 
-In the analysis, an ARMA-GARCH model was first created only using the daily sentiment and then comparing to an ARMA-GARCH model with daily sentiment as an exogenous variable. The ARMA part of this technique, models the autocorrelation and moving average patterns in the data and GARCH models the volatility or conditional heteroskedasticity of the data. To determine whether daily sentiment, the exogenous variable has any effect on the model, we conducted the Likelihood ratio test. The log likelihood values for the base model and the model with sentiment as a variable are 1293.56 and 504.85, respectively.
+We first performed a z-test for the parameters of the ARMA portion. The null hypothesis was that the addition of the exogenous variable would have no effect on the ARMA part of the original model, meaning the coefficient of xreg (the sentiment score) is 0. We found the difference between the estimated coefficient in the armax model (0.0015) and the hypothesized value of zero and divided it by the standard error of the coefficient (0.004), which gave us a z-score of 0.375. The corresponding p-value was 0.35383, which is much larger than our chosen significance level of 0.05. Thus, we could not reject the null hypothesis that the addition of this exogenous variable has a significant effect on the means and autocorrelation of this model.  The log-likelihood values for the ARMA portion were calculated by the \texttt{arimax} package so to further test this hypothesis, we did the log-liklihood ratio test for the ARMA portion of the model. The log likelihood values for the base model and the model with sentiment as a variable are 1293.56 and 1293.98, respectively. A higher log likelihood value by a factor of 2 times indicates a better fit to the data but the differences between the likelihood scores are not nearly significant enough of a difference to allow us to reject the null hypothesis.
 
-A higher log likelihood value indicates a better fit to the data. Therefore, based on the log likelihood values, the ARIMA(0,0,0) model with non-zero mean fits the returns better than the one which includes the sentiment score as an exogenous variable therefore, we could not reject the null hypothesis that the exogenous variable has no effect on the model. We tried this same technique by applying a weight to the sentiment score and obtained similar results.
+Afterwards we followed the same process for the GARCH portion. In this portion, the null hypothesis for the z test is that the addition of this exogenous variable would have no effect on the GARCH part of the original model. The estimated coefficient for this portion was 9.931742e-11  and the estimated standard error was 1.542782e-03. This gives a z-score critical value of 6.43755372e-8 which has a p-value that's almost 1 which is very large compared to chosen significance value of 0.05. This means that we could not reject the null hypothesis that the addition of this exogenous variable has a significant effect on the variance and volatility of this model. 
+
+Overall, our tests suggest that the twitter sentiment scores from our sampling methods for the period of 2021 to 2022 are not effective in predicting the volatility and autocorrelation of the CVX stock.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec: discussion}
@@ -283,25 +287,21 @@ As mentioned before, this paper is the first one to take the approach of using T
     \item Describing the data and the methods by which the data was obtained.
     \item Describing the methods behind the sentiment analysis and correlation derivation.
     \item Describing the results.
-\end{itemize}.
+\end{itemize}
 
-\jy{close figure/table captions with a period.}
-%%think I did it but not sure
+%\jy{close figure/table captions with a period.}
+%%did
 
 
-\jy{no need for paragraph titles}
+
 %%done
-\paragraph{}
 One possible expansion of this study would be to increase the sample size to include more observations and thus increase the robustness of the analysis. This would allow for more accurate statistical tests and a better understanding of the relationship between sentiment and stock price movement/volatility. Another possible expansion would be to test for causality using techniques like the Granger causality test, which would allow us to determine whether sentiment scores are truly predictive of stock price movements or whether they are just correlated. Additionally, conducting a meta-analysis of multiple companies in the fossil fuel industry or across multiple industries could provide broader insights into the relationship between sentiment and stock prices. 
 
-
-\paragraph{}
 Although this study found that both weighted and unweighted sentiment scores may not have been effective in predicting stock price movement and volatility of CVX, it established a novel methodology for analyzing Twitter sentiment data and determining whether it is informative in predicting stock prices. This methodology can be applied to other industries and sectors to gain a better understanding of the role that sentiment plays in stock price movements. The methodology can be useful for multiple groups, such as Public Relations departments in companies like Chevron, who can use this to assess the effectiveness of their publicity campaigns on the company's valuation, leading to higher profits and public influence. Alternatively, environmental groups can use this methodology to measure the effectiveness of their activism campaigns in influencing the trading power of Chevron Stock ownership. This methodology provides a way for various groups to adjust their strategies to influence public sentiment and in turn stock value.
 
-\paragraph{}
 Overall, this study provides valuable insights into the use of Twitter sentiment analysis as a tool for predicting stock prices, and points towards potential avenues for further research. With further research, determined but analyzing the effect of public sentiment on stock prices of fossil fuel companies can provide valuable insight into how public opinion can be used to augment or reduce the effects of climate change.
 
-\jy{no manually controlled spacing}
+%%%\jy{no manually controlled spacing}
 
 \bibliographystyle{chicago}
 \bibliography{references}
