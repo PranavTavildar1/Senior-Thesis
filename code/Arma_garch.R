@@ -28,7 +28,8 @@ garch_model
 
 summary(arma_model)
 residuals_garch <- residuals(garch_model)
-plot(residuals_garch)
+plot(residuals_garch, ylab = "Residuals as Percentage", xlab = "Time", 
+     main = "GARCH Residuals Plot")
 
 #### To do this part (sentiment score is an exogenous variable) through the following https://rdrr.io/cran/TSA/man/arimax.html
 ### Find the ARMA mean but if this fails look at the GARCH portion using the following https://www.rdocumentation.org/packages/garchx/versions/1.3/topics/garchx

@@ -80,8 +80,8 @@ twitter.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-\label{sec: intro}
-\jy{don't put space in labels}
+\label{sec:intro}
+%%\jy{don't put space in labels}
 %\paragraph{Overview of topic}
 
 The Chevron Corporation is an America-based energy company thats has operations in over 180 countries where it has vertically integrated all operations in its supply chain such as exploration, production, refinement, chemical manufacturing, transportation, sales, marketing, and power generation. A lot of revenue comes from these streams but they also receive funding from government subsidies and stock revenue. As of when this paper was written, the Chevron Corporation has the 11th highest market capitalization with 361.57 billion dollars in traded stocks.
@@ -96,21 +96,23 @@ A popular method of analyzing sequence data for most natural language processing
 
 In this paper, we will explore using a distilBERT Transformer model to generate sentiment scores of twitter data from the years 2021 and 2022, and investigate its association with the stock prices of the Chevron Corporation (CVX) within the same period.
 
-\jy{refer to sections by their labels}
+%%%\jy{refer to sections by their labels}
+%%completed
 
-This following is a roadmap for this study: 1) Describing the Data, 2) Explaining the Statistical Methods and the Machine Learning Concepts, 3) Explaining the Results of our Paper, 4) Conducting Discussion of this Study.
+This following is a roadmap for this study: Section \ref{sec:intro}: Introducing Concepts and Providing Background, Section \ref{sec:datadesc}: Describing the Data , Section \ref{sec:methods}: Explaining the Statistical Methods and the Machine Learning Concepts, Section \ref{sec:results}: Explaining the Results of our Paper, and Section \ref{sec:discussion}: Conducting Discussion of this Study.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Data Description} \jy{put section labels within the sections}
-\label{sec: datadesc}
+\section{Data Description} 
+\label{sec:datadesc}
+%%\jy{put section labels within the sections}
 
-\jy{Merge those paragraphs that are overally small.}
+%%\jy{Merge those paragraphs that are overally small.}
 
 For the period of 2021-2022,  CVX stock data and twitter tweets were collected for analysis.
 Historic Stock data for the Chevron Corporation was collected using Yahoo Finance's Historical Stock Data tool. Figure ~\ref{fig:stockdata} shows the fluctuations of the Stock Highs, the Stock Lows and the Closing Prices over the observed period that was generated using the matplotlib package for python \citep{Hunter_2007}. 
-
+While the Highs and Lows might be informative in analysis, in order to concentrate the focus of this paper in a manner more similar to other financial data analyses, we will only experiment the closing Price and the Returns which can be taken by taking the log difference of the closing Prices, refer to Figure~{fig:returns}.
 %%\jy{the figure x-labels are cutoff}
 %%% fixed this
 \begin{figure}[tbp]
@@ -121,7 +123,7 @@ Historic Stock data for the Chevron Corporation was collected using Yahoo Financ
 \end{figure}
 
 
-While the Highs and Lows might be informative in analysis, in order to concentrate the focus of this paper in a manner more similar to other financial data analyses, we will only experiment the closing Price and the Returns which can be taken by taking the log difference of the closing Prices. 	
+
 
 %%\jy{The upper panel is repeating. Only keep one.}
 %%%fixed this part
@@ -171,8 +173,8 @@ For the purpose of this paper, 10 tweets were scraped with the topic query ``CVX
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec: methods}
 \section{Methods}
+\label{sec:methods}
 
 \subsection{Sentiment Analysis}
 \paragraph{The Transformer Model}
@@ -208,7 +210,7 @@ As mentioned in the first section, Transformers models have shown a lot of promi
 \caption{In this figure we can observe a very simplified version of the Transformer model with its two major components, the encoder and the decoder. \citep{devlin2018bert}.}
 \label{fig:transformer}
 \end{figure}
-The Transformer architecture consists of two main components: an encoder and a decoder.The encoder takes in the input sequence and generates a sequence of hidden representations, which are then passed to the decoder. The decoder then uses the encoder's output to generate the final output sequence.
+The Transformer architecture consists of two main components: an encoder and a decoder.The encoder takes in the input sequence and generates a sequence of hidden representations, which are then passed to the decoder. The decoder then uses the encoder's output to generate the final output sequence. Figure~\ref{fig:transformer} is a simple layout of this architecture
 
 
 We will be utilizing Bidirectional Encoder Representations from Transformers (BERT) for our sentiment analysis. BERT is a transformer model developed by Google that can perform multiple Natural Language Processing tasks such as sentiment analysis, text classification, chatbots, text extraction, machine translation, text summarization, market intelligence, auto-correct, intent classification, urgency detection, and speech recognition.
@@ -216,7 +218,7 @@ We will be utilizing Bidirectional Encoder Representations from Transformers (BE
 
 This model was initially trained on Wikipedia and Google’s BooksCorpus which contain 2,500,000,000 words and 800,000,000 words respectively. Training of BERT was completed over a period of 4 days using 64 Tensor Processing Units running in parallel. With this much data, it is able to understand context clues making it a very effective model for the purposes of sentiment analysis.
 
-\jy{put negative signs in math mode}
+%%\jy{put negative signs in math mode}
 
 We will be specifically using distil-BERT which is a version of BERT with 12 transformation layers, and 768 Hidden Layers \citep{muller_2022}. This is more reasonable for the task we have at hand and we will implement this using the Hugging Face transformers pipeline package \citep{huggingface2023}. For each day, the average sentiment score of all tweets was calculated. Sentiment scores range from $-1$ to 1, where -1 represents a very negative sentiment and 1 represents a very positive sentiment.
 
@@ -234,8 +236,8 @@ Finally, a GARCHX model was fitted to the returns with sentiment scores using th
 For further analysis, a weighted sentiment score was calculated by assigning a weight to each sentiment score based on the number of tweets collected for that day. The weighted sentiment score was then used as an exogenous variable in the ARIMAX and GARCHX models, and the results were compared to those obtained using the unweighted sentiment score.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec: results}
 \section{Results}
+\label{sec:results}
 
 The sentiment analysis took approximately 12 minutes to run and the data generated created 3 new columns in the working dataframe: sentiment, label, and score. Score is a numeric value from the range [0,1] where the higher the score the more confident the sentiment analyzed is correct. This score is the confidence that the model gives for the sentiment assignment and serves as a way to observe sentiment as a continuous variable. When combined and observed as a frequency histogram, it seems that the sentiment scores for the period are centered around a slightly positive value of 0.1 indicating sentiment for the CVX term was generally positive but normally distributed more or less.
 
@@ -251,7 +253,7 @@ The sentiment analysis took approximately 12 minutes to run and the data generat
 
 ARMA-GARCH models have several assumptions, including the stationarity of the time series data, the presence of autoregressive and moving average processes, the normality and lack of autocorrelation in the residuals, the constant conditional variance of the data, the absence of autoregressive conditional heteroscedasticity effects, and a sufficient sample size. These assumptions are important to ensure unbiased parameter estimates and accurate predictions. Some of these assumptions such as the normality and lack of autocorrelation in the residuals, the constant conditional variance of the data, the absence of autoregressive conditional heteroscedasticity effects were checked manually by making plots using R shown in Figure~\ref{fig:garchvar} 
 
-\jy{make the label of the vertical axis more informative}
+%%\jy{make the label of the vertical axis more informative}
 \begin{figure}[tbp]
   \begin{center}
   \includegraphics[width=\textwidth]{../figures/fig4.pdf}
@@ -269,8 +271,8 @@ Afterwards we followed the same process for the GARCH portion. In this portion, 
 Overall, our tests suggest that the twitter sentiment scores from our sampling methods for the period of 2021 to 2022 are not effective in predicting the mean nor the volatility of the CVX stock.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec: discussion}
 \section{Discussion}
+\label{sec:discussion}
 
 As mentioned before, this paper is the first one to take the approach of using Transformers to determine whether twitter sentiment is informative in predicting the volatility of the stock price of the Chevron Corporation. In summary, this paper accomplished this task through the following:
 \begin{itemize}
