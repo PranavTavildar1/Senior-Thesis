@@ -84,14 +84,14 @@ twitter.
 %%\jy{don't put space in labels}
 %\paragraph{Overview of topic}
 
-The Chevron Corporation is an America-based energy company thats has operations in over 180 countries where it has vertically integrated all operations in its supply chain such as exploration, production, refinement, chemical manufacturing, transportation, sales, marketing, and power generation. A lot of revenue comes from these streams but they also receive funding from government subsidies and stock revenue. As of when this paper was written, the Chevron Corporation has the 11th highest market capitalization with 361.57 billion dollars in traded stocks.
+The Chevron Corporation is an energy company based in the United States thats has operations in over 180 countries where it has vertically integrated all operations in its supply chain such as exploration, production, refinement, chemical manufacturing, transportation, sales, marketing, and power generation. A lot of revenue comes from these streams but the corporation also receives funding from government subsidies and stock revenue. As of when this paper was written, the Chevron Corporation has the 11th highest market capitalization with 361.57 billion dollars in traded stocks.
 
 As a publicly traded company, Chevron's stock price is determined by supply and demand in the market. Generally, this is influenced by factors such as market dynamics, economic conditions and changes to economic policy. Through this paper, we seek to determine whether this can be predicted or determined through observing public speculation on Twitter, the ``virtual public square." Being able to determine whether public sentiment can be informative in predicting stock price might prove as a valuable indicator for many groups such as investors, activists, and companies officials to determine how much of a correlation a change in public opinion has to the stock value.  	
 %\paragraph{Review of the Literature}
 
 Sentiment analysis \citep{medhat2014sentiment} is a tool which uses natural language processing to determine whether the sentiment towards any subject is positive or negative and assigns it a score. It has been used to analyze activity in the stock market. Koosha Golmohammadi and Osmar R. Zaiane for instance use sentiment analysis with Twitter data to improve their Contextual Anomaly Detection (CAD) model in order to detect Market Manipulation in the United States and Canada \citep{golmohammadi2017sentiment}. Furthermore, Lu-Tao Zhao and Guan-Rong Zheng web text and applied Sentiment Analysis in order to do Oil Price forecasting \citep{zhao2019forecasting}. This concept has also been applied in order to predict one step ahead of the closing price of the stock market in Thailand using a hybrid model composed of Principle Component Analysis (PCA) for Data Processing (Dimensionality Reduction), Empirical Mode Distribution (EMD) for signal interpretation and data preprocessing, and the Long-Short-Term-Memory(LSTM) model, a specialized type of recurrent neural network for the sentiment analysis \citep{srijiranon2022hybrid}.
 
-A popular method of analyzing sequence data for most natural language processing is through the use of transformer models  \citep{vaswani2017attention}. This model sought to improve the problems existing with the Recurrent Neural Network(RNN) model which used to be the preferred model for language processing tasks. Transformers have shown a lot of promise, outperforming its competitors in speed and accuracy for natural language processing tasks. Due to its novelty and its promising qualities, many are applying Transformers for various tasks, yet nobody has this used this approach to find out whether it is possible to find out the correlation between Twitter Sentiment and Stock prices of prominent fossil fuel corporations. In this paper, we specifically will focus on the Chevron Corporation (though in future iterations, we might extend this to multiple corporations in this field).
+A popular method of analyzing sequence data for most natural language processing is through the use of transformer models  \citep{vaswani2017attention}. This model sought to improve the problems existing with the Recurrent Neural Network(RNN) model which used to be the preferred model for language processing tasks. Transformers have shown a lot of promise, outperforming its competitors in speed and accuracy for natural language processing tasks. Due to its novelty and its promising qualities, many are applying Transformers for various tasks, yet nobody has this used this approach to find out whether it is possible to find out the correlation between Twitter Sentiment and Stock prices of prominent fossil fuel corporations. 
 %\paragraph{My Contribution}
 
 In this paper, we will explore using a distilBERT Transformer model to generate sentiment scores of twitter data from the years 2021 and 2022, and investigate its association with the stock prices of the Chevron Corporation (CVX) within the same period.
@@ -99,7 +99,7 @@ In this paper, we will explore using a distilBERT Transformer model to generate 
 %%%\jy{refer to sections by their labels}
 %%completed
 
-This following is a roadmap for this study: Section \ref{sec:intro}: Introducing Concepts and Providing Background, Section \ref{sec:datadesc}: Describing the Data , Section \ref{sec:methods}: Explaining the Statistical Methods and the Machine Learning Concepts, Section \ref{sec:results}: Explaining the Results of our Paper, and Section \ref{sec:discussion}: Conducting Discussion of this Study.
+This following is a roadmap for this study: Section \ref{sec:intro}: Introducing Concepts and Providing Background, Section \ref{sec:datadesc}: Describing the Data, Section \ref{sec:methods}: Explaining the Statistical Methods and the Machine Learning Concepts, Section \ref{sec:results}: Explaining the Results of our Paper, and Section \ref{sec:discussion}: Conducting Discussion of this Study.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -112,7 +112,7 @@ This following is a roadmap for this study: Section \ref{sec:intro}: Introducing
 
 For the period of 2021-2022,  CVX stock data and twitter tweets were collected for analysis.
 Historic Stock data for the Chevron Corporation was collected using Yahoo Finance's Historical Stock Data tool. Figure ~\ref{fig:stockdata} shows the fluctuations of the Stock Highs, the Stock Lows and the Closing Prices over the observed period that was generated using the matplotlib package for python \citep{Hunter_2007}. 
-While the Highs and Lows might be informative in analysis, in order to concentrate the focus of this paper in a manner more similar to other financial data analyses, we will only experiment the closing Price and the Returns which can be taken by taking the log difference of the closing Prices, refer to Figure~{fig:returns}.
+While the Highs and Lows might be informative in analysis, in order to concentrate the focus of this paper in a manner more similar to other financial data analyses, we will only experiment the closing Price and the Returns which can be taken by taking the log difference of the closing Prices, refer to Figure~\ref{fig:returns}.
 %%\jy{the figure x-labels are cutoff}
 %%% fixed this
 \begin{figure}[tbp]
@@ -134,7 +134,7 @@ While the Highs and Lows might be informative in analysis, in order to concentra
   \end{center}
 \end{figure}
 
-\jy{make sure every figure/table is referred to in the text}
+%%%\jy{make sure every figure/table is referred to in the text}
 
 
 %%\jy{Use table styles from my template}
@@ -162,14 +162,14 @@ While the Highs and Lows might be informative in analysis, in order to concentra
 \end{table}
 
 
-We also used the data processing library Pandas in order to generate summary statistics as shown in Table~\ref{tab:sumstat}
+We also used the data processing library Pandas in order to generate summary statistics as shown in Table~\ref{tab:sumstat}.
 The range of the closing values for the observed period was 84.70 to 188.05; the lowest and highest values were observed on January 4th, 2021 November 15th, 2022. There are 502 days that the stock data was available for since Chevron is a part of the New York Stock Exchange which is closed all day on Saturdays, Sundays and nine holidays a year. This was something that was taken into consideration when working with twitter data. 
 
 
 The twitter data was scraped using the python package snscrape \citep{justanotherarchivist_2022}. This is an open source library that allows for the scraping of twitter data without having to use the API. The code used to generate the twitter data can be found in code/datagen.py. In short, the process used to scrape the data was to first create some auxiliary functions for tasks such as determining how many tweets need to be gathered at a given time and create some functions to make it easier to pass in queries in the Twitter Search Scraper object. Regarding the collection of tweets, the query can either be for some topic keywords or the tweets from a specific user. 
 
 
-For the purpose of this paper, 10 tweets were scraped with the topic query ``CVX" from January 1st 2021 to December 31st 2022.  7290 tweets were generated, saved as a csv and merged with the CVX stock data on the Date axis after matching datatypes. This also omitted tweets which were created when the stock market was closed in order to simplify the analysis. Using this we were able to perform sentiment analysis and calculate correlation.
+For the purpose of this paper, 10 tweets were scraped daily with the topic query ``CVX" from January 1st 2021 to December 31st 2022.  7290 tweets were generated, saved as a csv and merged with the CVX stock data on the Date axis after matching datatypes. This also omitted tweets which were created when the stock market was closed in order to simplify the analysis. Using this we were able to perform sentiment analysis and calculate correlation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -178,7 +178,7 @@ For the purpose of this paper, 10 tweets were scraped with the topic query ``CVX
 
 \subsection{Sentiment Analysis}
 \paragraph{The Transformer Model}
-As mentioned in the first section, Transformers models have shown a lot of promise for a variety of natural language processing tasks, outperforming its competitors in speed and accuracy. The BERT model seems to be particularly well suited for tasks of sentiment analysis. Transformers work based on the concept of ``attention" which was introduced in ``Attention is all you need" \citep{vaswani2017attention} . Attention allows Transformers to learn the relationships between the words in a sentence or sequence of words. To do this, the Transformer splits the input sequence into tokens (usually individual words or sub-words) and embeds them into a high-dimensional vector space. It then applies multiple layers of self-attention, where each token in the sequence is given a weight based on its relevance to the other tokens. The self-attention mechanism allows the model to focus on the most important parts of the input sequence and learn dependencies between the words. After the self-attention layers, the Transformer applies feedforward neural networks to further refine the representations of the tokens. Transformers create differential weights signaling which words in a sentence are the most critical to further process. 	
+As mentioned in the first section, Transformers models have shown a lot of promise for a variety of natural language processing tasks, outperforming its competitors in speed and accuracy. The BERT model seems to be particularly well suited for tasks of sentiment analysis. Transformers work based on the concept of ``attention" which was introduced in ``Attention is all you need" \citep{vaswani2017attention}. Attention allows Transformers to learn the relationships between the words in a sentence or sequence of words. To do this, the Transformer splits the input sequence into tokens (usually individual words or sub-words) and embeds them into a high-dimensional vector space. It then applies multiple layers of self-attention, where each token in the sequence is given a weight based on its relevance to the other tokens. The self-attention mechanism allows the model to focus on the most important parts of the input sequence and learn dependencies between the words. After the self-attention layers, the Transformer applies feedforward neural networks to further refine the representations of the tokens. Transformers create differential weights signaling which words in a sentence are the most critical to further process. 	
 
 \begin{figure}[tbp]
 \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
@@ -210,7 +210,7 @@ As mentioned in the first section, Transformers models have shown a lot of promi
 \caption{In this figure we can observe a very simplified version of the Transformer model with its two major components, the encoder and the decoder. \citep{devlin2018bert}.}
 \label{fig:transformer}
 \end{figure}
-The Transformer architecture consists of two main components: an encoder and a decoder.The encoder takes in the input sequence and generates a sequence of hidden representations, which are then passed to the decoder. The decoder then uses the encoder's output to generate the final output sequence. Figure~\ref{fig:transformer} is a simple layout of this architecture
+The Transformer architecture consists of two main components: an encoder and a decoder.The encoder takes in the input sequence and generates a sequence of hidden representations, which are then passed to the decoder. The decoder then uses the encoder's output to generate the final output sequence. Figure~\ref{fig:transformer} is a simple representation of this architecture that takes into account its key components.
 
 
 We will be utilizing Bidirectional Encoder Representations from Transformers (BERT) for our sentiment analysis. BERT is a transformer model developed by Google that can perform multiple Natural Language Processing tasks such as sentiment analysis, text classification, chatbots, text extraction, machine translation, text summarization, market intelligence, auto-correct, intent classification, urgency detection, and speech recognition.
@@ -267,6 +267,8 @@ In this analysis, we constructed an ARMA-GARCH model using daily sentiment data 
 We first performed a z-test for the parameters of the ARMA portion. The null hypothesis was that the addition of the exogenous variable would have no effect on the ARMA part of the original model, meaning the coefficient of xreg (the sentiment score) is 0. We found the difference between the estimated coefficient in the armax model (0.0015) and the hypothesized value of zero and divided it by the standard error of the coefficient (0.004), which gave us a z-score of 0.375. The corresponding p-value was 0.35383, which is much larger than our chosen significance level of 0.05. Thus, we could not reject the null hypothesis that the addition of this exogenous variable has a significant effect on the means and autocorrelation of this model.  The log-likelihood values for the ARMA portion were calculated by the \texttt{arimax} package so to further test this hypothesis, we did the log-liklihood ratio test for the ARMA portion of the model. The log likelihood values for the base model and the model with sentiment as a variable are 1293.56 and 1293.98, respectively. A higher log likelihood value by a factor of 2 times indicates a better fit to the data but the differences between the likelihood scores are not nearly significant enough of a difference to allow us to reject the null hypothesis.
 
 Afterwards we followed the same process for the GARCH portion. In this portion, the null hypothesis for the z test is that the addition of this exogenous variable would have no effect on the GARCH part of the original model. The estimated coefficient for this portion was 9.931742e-11  and the estimated standard error was 1.542782e-03. This gives a z-score critical value of 6.43755372e-8 which has a p-value that's almost 1 which is very large compared to chosen significance value of 0.05. This means that we could not reject the null hypothesis that the addition of this exogenous variable has a significant effect on the variance and volatility of this model. 
+
+Similarly, z-tests were conducted for weighted sentiment as the exogenous variable and the null hypothesis was still rejected with p values of 0.476 and 1 for the ARMA and GARCH portions respectively.
 
 Overall, our tests suggest that the twitter sentiment scores from our sampling methods for the period of 2021 to 2022 are not effective in predicting the mean nor the volatility of the CVX stock.
 
