@@ -55,9 +55,8 @@
 %% meta data
 
 \title{Sentiment Analysis of Twitter in Relation to Fossil Fuel Stock Prices}
-\author{Pranav Tavildar\\
-  University of Connecticut \\
-  Advisor: Jun Yan\\
+\author{Pranav Tavildar\\[2ex]
+  Advisor: Jun Yan\\[2ex]
   Department of Statistics\\
   University of Connecticut
 }
@@ -67,55 +66,49 @@
 \doublespace
 
 \begin{abstract}
-As a publicly traded company, the Chevron Corporation has the 11th highest market capitalization in the world with 361.57 billion dollars in traded stocks. There exist many social factors that contribute to this stock value but this paper aims to establish a methodology to test whether public opinion in social media is informative in predicting stock price movement and its volatility for the Chevron Corporation stock(CVX). This is done by using a DistilBert transformer architecture to assign a sentiment score for each tweet and afterwords, we try to determine if there is a correlation between stock price and daily sentiment using an ARMA GARCH Model.
+As a publicly traded company, the Chevron Corporation has the 11th highest market capitalization in the world with 361.57 billion dollars in traded stocks. There exist many social factors that contribute to this stock value but this paper aims to establish a methodology to test whether public opinion in social media is informative in predicting stock price movement and its volatility for the Chevron Corporation stock (CVX). This is done by using a DistilBert transformer architecture to assign a sentiment score for each tweet and afterwords, we try to determine if there is a correlation between stock price and daily sentiment using an ARMA GARCH Model.
 
 
-%%\jy{alphabetical; no repeating words in title. Read my writing tips and practice them}
-%% did this
+
 \bigskip
 \noindent{\sc Keywords}:
 BERT;
 chevron;
-twitter;
-nlp;
-sentiment analysis.
-
+sentiment analysis;
+twitter.
 \end{abstract}
 
-%%\jy{what do I recommend for linewidth?}
-%% need the ebook
-%%\jy{Two figure labels are multiply defined. Read the log and fix the warnings}
-%% could not find the figures
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{sec: intro}
+\jy{don't put space in labels}
 %\paragraph{Overview of topic}
 
 The Chevron Corporation is an America-based energy company thats has operations in over 180 countries where it has vertically integrated all operations in its supply chain such as exploration, production, refinement, chemical manufacturing, transportation, sales, marketing, and power generation. A lot of revenue comes from these streams but they also receive funding from government subsidies and stock revenue. As of when this paper was written, the Chevron Corporation has the 11th highest market capitalization with 361.57 billion dollars in traded stocks.
 
-As a publicly traded company, Chevron's stock price is determined by supply and demand in the market. Generally, this is influenced by factors such as market dynamics, economic conditions and changes to economic policy. Through this paper, we seek to determine whether this can be predicted or determined through observing public speculation on Twitter, the "virtual public square." Being able to determine whether public sentiment can be informative in predicting stock price might prove as a valuable indicator for many groups such as investors, activists, and companies officials to determine how much of a correlation a change in public opinion has to the stock value.  	
+As a publicly traded company, Chevron's stock price is determined by supply and demand in the market. Generally, this is influenced by factors such as market dynamics, economic conditions and changes to economic policy. Through this paper, we seek to determine whether this can be predicted or determined through observing public speculation on Twitter, the ``virtual public square." Being able to determine whether public sentiment can be informative in predicting stock price might prove as a valuable indicator for many groups such as investors, activists, and companies officials to determine how much of a correlation a change in public opinion has to the stock value.  	
 %\paragraph{Review of the Literature}
 
-To quantify public opinion, this paper uses a machine learning technique known as sentiment analysis \citep{medhat2014sentiment} which uses natural language processing to determine whether the sentiment towards any subject is positive or negative and assigns it a score.
+Sentiment analysis \citep{medhat2014sentiment} is a tool which uses natural language processing to determine whether the sentiment towards any subject is positive or negative and assigns it a score. It has been used to analyze activity in the stock market. Koosha Golmohammadi and Osmar R. Zaiane for instance use sentiment analysis with Twitter data to improve their Contextual Anomaly Detection (CAD) model in order to detect Market Manipulation in the United States and Canada \citep{golmohammadi2017sentiment}. Furthermore, Lu-Tao Zhao and Guan-Rong Zheng web text and applied Sentiment Analysis in order to do Oil Price forecasting \citep{zhao2019forecasting}. This concept has also been applied in order to predict one step ahead of the closing price of the stock market in Thailand using a hybrid model composed of Principle Component Analysis (PCA) for Data Processing (Dimensionality Reduction), Empirical Mode Distribution (EMD) for signal interpretation and data preprocessing, and the Long-Short-Term-Memory(LSTM) model, a specialized type of recurrent neural network for the sentiment analysis \citep{srijiranon2022hybrid}.
 
- Some papers in the literature use this technique in relation to analyzing activity in the stock market. Koosha Golmohammadi and Osmar R. Zaiane for instance use sentiment analysis with Twitter data to improve their Contextual Anomaly Detection(CAD) model in order to detect Market Manipulation in the United States and Canada \citep{golmohammadi2017sentiment}. Furthermore, Lu-Tao Zhao and Guan-Rong Zheng web text and applied Sentiment Analysis in order to do Oil Price forecasting \citep{zhao2019forecasting}. This concept has also been applied in order to predict one step ahead of the closing price of the stock market in Thailand using a hybrid model composed of Principle Component Analysis (PCA) for Data Processing (Dimensionality Reduction), Empirical Mode Distribution (EMD) for signal interpretation and data preprocessing, and the Long-Short-Term-Memory(LSTM) model, a specialized type of recurrent neural network for the sentiment analysis \citep{srijiranon2022hybrid}.
-
-While these methods have been tried and proven, as of writing this, the preferred method of analyzing sequence data for most natural language processing is through the use of transformer models. This type of model was first introduced in the paper "Attention is all you need" \citep{vaswani2017attention}. 
-
-This model sought to improve the problems existing with the Recurrent Neural Network(RNN) model which used to be the preferred model for language processing tasks. Transformers have shown a lot of promise, outperforming its competitors in speed and accuracy for natural language processing tasks. Due to its novelty and its promising qualities, many are applying Transformers for various tasks, yet nobody has this used this approach to find out whether it is possible to find out the correlation between Twitter Sentiment and Stock prices of prominent fossil fuel corporations. In this paper, we specifically will focus on the Chevron Corporation (though in future iterations, we might extend this to multiple corporations in this field).
+A popular method of analyzing sequence data for most natural language processing is through the use of transformer models  \citep{vaswani2017attention}. This model sought to improve the problems existing with the Recurrent Neural Network(RNN) model which used to be the preferred model for language processing tasks. Transformers have shown a lot of promise, outperforming its competitors in speed and accuracy for natural language processing tasks. Due to its novelty and its promising qualities, many are applying Transformers for various tasks, yet nobody has this used this approach to find out whether it is possible to find out the correlation between Twitter Sentiment and Stock prices of prominent fossil fuel corporations. In this paper, we specifically will focus on the Chevron Corporation (though in future iterations, we might extend this to multiple corporations in this field).
 %\paragraph{My Contribution}
 
-In this paper, we will explore using a distilBERT Transformer model to generate sentiment scores of twitter data from the years 2021 and 2022, and comparing it to the stock prices of the Chevron Corporation (CVX) within the same period to determine whether there exists correlation. 
+In this paper, we will explore using a distilBERT Transformer model to generate sentiment scores of twitter data from the years 2021 and 2022, and investigate its association with the stock prices of the Chevron Corporation (CVX) within the same period.
 
-This following is a roadmap for this study: 1) Describing the Data, 2) Explaining the Statistical Methods and the Machine Learning Concepts, 3) Explaining the Results of our Paper, 4) Conducting Discussion of this Study
+\jy{refer to sections by their labels}
+
+This following is a roadmap for this study: 1) Describing the Data, 2) Explaining the Statistical Methods and the Machine Learning Concepts, 3) Explaining the Results of our Paper, 4) Conducting Discussion of this Study.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Data Description} \jy{put section labels within the sections}
 \label{sec: datadesc}
-\section{Data Description}
+
+\jy{Merge those paragraphs that are overally small.}
 
 For the period of 2021-2022,  CVX stock data and twitter tweets were collected for analysis.
-%%\paragraph{how the economic data was obtained}
-
 Historic Stock data for the Chevron Corporation was collected using Yahoo Finance's Historical Stock Data tool. Figure ~\ref{fig:stockdata} shows the fluctuations of the Stock Highs, the Stock Lows and the Closing Prices over the observed period that was generated using the matplotlib package for python \citep{Hunter_2007}. 
 
 %%\jy{the figure x-labels are cutoff}
@@ -128,7 +121,7 @@ Historic Stock data for the Chevron Corporation was collected using Yahoo Financ
 \end{figure}
 
 
-While the Highs and Lows might be informative in analysis, in order to concentrate the focus of this paper in a manner more similar to other financial data analyses, we will only experiment the Closing Price and the Returns which can be taken by taking the log difference of the Closing Prices. 	
+While the Highs and Lows might be informative in analysis, in order to concentrate the focus of this paper in a manner more similar to other financial data analyses, we will only experiment the closing Price and the Returns which can be taken by taking the log difference of the closing Prices. 	
 
 %%\jy{The upper panel is repeating. Only keep one.}
 %%%fixed this part
@@ -139,17 +132,20 @@ While the Highs and Lows might be informative in analysis, in order to concentra
   \end{center}
 \end{figure}
 
+\jy{make sure every figure/table is referred to in the text}
+
 
 %%\jy{Use table styles from my template}
 %%% Need link to the efor,
-We also used the data processing library Pandas in order to generate summary statistics as shown in Table~\ref{tab:sumstat}
+
 \begin{table}[tbp]
   \begin{center}
     \caption{Summary Statistics for the Chevron Stock Data.}
     \label{tab:sumstat}
-    \begin{tabular}{l|c|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-      \textbf{Metrics} & \textbf{Close} & \textbf{Returns}\\
-      \hline
+    \begin{tabular}{lcr} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \toprule
+      {Metrics} & {Close} & {Returns}\\
+      \midrule
       count & 503.000000 & 502.000000\\
       mean & 131.520815 & 0.001496\\
       std & 30.228298 & 0.018412\\
@@ -158,19 +154,20 @@ We also used the data processing library Pandas in order to generate summary sta
       50\% & 118.790001 & 0.002891\\
       75\% & 160.619995 & 0.013058\\
       max & 188.050003 & 0.085292\\
+      \bottomrule
     \end{tabular}
   \end{center}
 \end{table}
 
 
-
+We also used the data processing library Pandas in order to generate summary statistics as shown in Table~\ref{tab:sumstat}
 The range of the closing values for the observed period was 84.70 to 188.05; the lowest and highest values were observed on January 4th, 2021 November 15th, 2022. There are 502 days that the stock data was available for since Chevron is a part of the New York Stock Exchange which is closed all day on Saturdays, Sundays and nine holidays a year. This was something that was taken into consideration when working with twitter data. 
 
 
 The twitter data was scraped using the python package snscrape \citep{justanotherarchivist_2022}. This is an open source library that allows for the scraping of twitter data without having to use the API. The code used to generate the twitter data can be found in code/datagen.py. In short, the process used to scrape the data was to first create some auxiliary functions for tasks such as determining how many tweets need to be gathered at a given time and create some functions to make it easier to pass in queries in the Twitter Search Scraper object. Regarding the collection of tweets, the query can either be for some topic keywords or the tweets from a specific user. 
 
 
-For the purpose of this paper, 10 tweets were scraped with the topic query "CVX" from January 1st 2021 to December 31st 2022.  7290 tweets were generated, saved as a csv and merged with the CVX stock data on the Date axis after matching datatypes. This also omitted tweets which were created when the stock market was closed in order to simplify the analysis. Using this we were able to perform sentiment analysis and calculate correlation.
+For the purpose of this paper, 10 tweets were scraped with the topic query ``CVX" from January 1st 2021 to December 31st 2022.  7290 tweets were generated, saved as a csv and merged with the CVX stock data on the Date axis after matching datatypes. This also omitted tweets which were created when the stock market was closed in order to simplify the analysis. Using this we were able to perform sentiment analysis and calculate correlation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -179,7 +176,7 @@ For the purpose of this paper, 10 tweets were scraped with the topic query "CVX"
 
 \subsection{Sentiment Analysis}
 \paragraph{The Transformer Model}
-As mentioned in the first section, Transformers models have shown a lot of promise for a variety of natural language processing tasks, outperforming its competitors in speed and accuracy. The BERT model seems to be particularly well suited for tasks of sentiment analysis. Transformers work based on the concept of "attention" which was introduced in "Attention is all you need" \citep{vaswani2017attention} . Attention allows Transformers to learn the relationships between the words in a sentence or sequence of words. To do this, the Transformer splits the input sequence into tokens (usually individual words or sub-words) and embeds them into a high-dimensional vector space. It then applies multiple layers of self-attention, where each token in the sequence is given a weight based on its relevance to the other tokens. The self-attention mechanism allows the model to focus on the most important parts of the input sequence and learn dependencies between the words. After the self-attention layers, the Transformer applies feedforward neural networks to further refine the representations of the tokens. Transformers create differential weights signaling which words in a sentence are the most critical to further process. 	
+As mentioned in the first section, Transformers models have shown a lot of promise for a variety of natural language processing tasks, outperforming its competitors in speed and accuracy. The BERT model seems to be particularly well suited for tasks of sentiment analysis. Transformers work based on the concept of ``attention" which was introduced in ``Attention is all you need" \citep{vaswani2017attention} . Attention allows Transformers to learn the relationships between the words in a sentence or sequence of words. To do this, the Transformer splits the input sequence into tokens (usually individual words or sub-words) and embeds them into a high-dimensional vector space. It then applies multiple layers of self-attention, where each token in the sequence is given a weight based on its relevance to the other tokens. The self-attention mechanism allows the model to focus on the most important parts of the input sequence and learn dependencies between the words. After the self-attention layers, the Transformer applies feedforward neural networks to further refine the representations of the tokens. Transformers create differential weights signaling which words in a sentence are the most critical to further process. 	
 
 \begin{figure}[tbp]
 \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
@@ -219,11 +216,12 @@ We will be utilizing Bidirectional Encoder Representations from Transformers (BE
 
 This model was initially trained on Wikipedia and Google’s BooksCorpus which contain 2,500,000,000 words and 800,000,000 words respectively. Training of BERT was completed over a period of 4 days using 64 Tensor Processing Units running in parallel. With this much data, it is able to understand context clues making it a very effective model for the purposes of sentiment analysis.
 
+\jy{put negative signs in math mode}
 
-We will be specifically using distil-BERT which is a version of BERT with 12 transformation layers, and 768 Hidden Layers.\citep{muller_2022} This is more reasonable for the task we have at hand and we will implement this using the Hugging Face transformers pipeline package\citep{huggingface2023}. For each day, the average sentiment score of all tweets was calculated. Sentiment scores range from -1 to 1, where -1 represents a very negative sentiment and 1 represents a very positive sentiment.
+We will be specifically using distil-BERT which is a version of BERT with 12 transformation layers, and 768 Hidden Layers \citep{muller_2022}. This is more reasonable for the task we have at hand and we will implement this using the Hugging Face transformers pipeline package \citep{huggingface2023}. For each day, the average sentiment score of all tweets was calculated. Sentiment scores range from $-1$ to 1, where -1 represents a very negative sentiment and 1 represents a very positive sentiment.
 
-\subsection{ARMA-GARCH Modeling}
-The daily returns for Chevron's stock (CVX) were obtained from calculating as the daily logarithmic difference of the closing prices. ARMA-GARCH modeling was then performed to investigate the relationship between the daily returns and the sentiment scores.
+\subsection{ARMA GARCH Modeling}
+The daily returns for CVX were obtained from calculating as the daily logarithmic difference of the closing prices. ARMA-GARCH modeling was then performed to investigate the relationship between the daily returns and the sentiment scores.
 
 First, an ARMA model was selected for the returns using the \texttt{auto.arima} function in the forecast package in R. The \texttt{max.D} and \texttt{max.d} parameters were set to 0 to avoid differencing in the ARMA model.
 
@@ -245,7 +243,7 @@ The sentiment analysis took approximately 12 minutes to run and the data generat
 \begin{figure}[tbp]
   \begin{center}
   \includegraphics[width=\textwidth]{../figures/fig3.pdf}
-  \caption{Sentiment Distribution Histogram.}\label{fig:sentimenthist}
+  \caption{Sentiment histogram.}\label{fig:sentimenthist}
   \end{center}
 \end{figure}
 
@@ -253,29 +251,22 @@ The sentiment analysis took approximately 12 minutes to run and the data generat
 
 ARMA-GARCH models have several assumptions, including the stationarity of the time series data, the presence of autoregressive and moving average processes, the normality and lack of autocorrelation in the residuals, the constant conditional variance of the data, the absence of autoregressive conditional heteroscedasticity effects, and a sufficient sample size. These assumptions are important to ensure unbiased parameter estimates and accurate predictions. Some of these assumptions such as the normality and lack of autocorrelation in the residuals, the constant conditional variance of the data, the absence of autoregressive conditional heteroscedasticity effects were checked manually by making plots using R shown in Figure~\ref{fig:garchvar} 
 
-%%\jy{reference to figures/tables by their labels. Never H or h. Always tbp for floating locations. }
+\jy{make the label of the vertical axis more informative}
 \begin{figure}[tbp]
   \begin{center}
   \includegraphics[width=\textwidth]{../figures/fig4.pdf}
-  \caption{Garch Model Residuals.}\label{fig:garchvar}
+  \caption{Garch model residuals.}\label{fig:garchvar}
   \end{center}
 \end{figure}
 
 
-
-%%\jy{space before citep}
-%%did it
-
-%%% we conducted a z-test on the basis of coefficient
-%%% arima two log-liklihoods, should be similar
-%%% do the same thing with garch
 In this analysis, we constructed an ARMA-GARCH model using daily sentiment data and compared it to a model that included daily sentiment as an exogenous variable. The ARMA part of the model captures the autocorrelation and moving average patterns in the data, while the GARCH part models the volatility or conditional heteroskedasticity of the data. To investigate whether daily sentiment as an exogenous variable has any effect on the model, we conducted z-tests to determine whether the addition of this new variable had a significant effect on the ARMA-GARCH model.
 
 We first performed a z-test for the parameters of the ARMA portion. The null hypothesis was that the addition of the exogenous variable would have no effect on the ARMA part of the original model, meaning the coefficient of xreg (the sentiment score) is 0. We found the difference between the estimated coefficient in the armax model (0.0015) and the hypothesized value of zero and divided it by the standard error of the coefficient (0.004), which gave us a z-score of 0.375. The corresponding p-value was 0.35383, which is much larger than our chosen significance level of 0.05. Thus, we could not reject the null hypothesis that the addition of this exogenous variable has a significant effect on the means and autocorrelation of this model.  The log-likelihood values for the ARMA portion were calculated by the \texttt{arimax} package so to further test this hypothesis, we did the log-liklihood ratio test for the ARMA portion of the model. The log likelihood values for the base model and the model with sentiment as a variable are 1293.56 and 1293.98, respectively. A higher log likelihood value by a factor of 2 times indicates a better fit to the data but the differences between the likelihood scores are not nearly significant enough of a difference to allow us to reject the null hypothesis.
 
 Afterwards we followed the same process for the GARCH portion. In this portion, the null hypothesis for the z test is that the addition of this exogenous variable would have no effect on the GARCH part of the original model. The estimated coefficient for this portion was 9.931742e-11  and the estimated standard error was 1.542782e-03. This gives a z-score critical value of 6.43755372e-8 which has a p-value that's almost 1 which is very large compared to chosen significance value of 0.05. This means that we could not reject the null hypothesis that the addition of this exogenous variable has a significant effect on the variance and volatility of this model. 
 
-Overall, our tests suggest that the twitter sentiment scores from our sampling methods for the period of 2021 to 2022 are not effective in predicting the volatility and autocorrelation of the CVX stock.
+Overall, our tests suggest that the twitter sentiment scores from our sampling methods for the period of 2021 to 2022 are not effective in predicting the mean nor the volatility of the CVX stock.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec: discussion}
@@ -283,18 +274,13 @@ Overall, our tests suggest that the twitter sentiment scores from our sampling m
 
 As mentioned before, this paper is the first one to take the approach of using Transformers to determine whether twitter sentiment is informative in predicting the volatility of the stock price of the Chevron Corporation. In summary, this paper accomplished this task through the following:
 \begin{itemize}
-    \item Introducing some background behind the Chevron Corporation and Sentiment Analysis as a Practice.
+    \item Introducing some background behind the Chevron Corporation and sentiment analysis as a practice.
     \item Describing the data and the methods by which the data was obtained.
     \item Describing the methods behind the sentiment analysis and correlation derivation.
     \item Describing the results.
 \end{itemize}
 
-%\jy{close figure/table captions with a period.}
-%%did
 
-
-
-%%done
 One possible expansion of this study would be to increase the sample size to include more observations and thus increase the robustness of the analysis. This would allow for more accurate statistical tests and a better understanding of the relationship between sentiment and stock price movement/volatility. Another possible expansion would be to test for causality using techniques like the Granger causality test, which would allow us to determine whether sentiment scores are truly predictive of stock price movements or whether they are just correlated. Additionally, conducting a meta-analysis of multiple companies in the fossil fuel industry or across multiple industries could provide broader insights into the relationship between sentiment and stock prices. 
 
 Although this study found that both weighted and unweighted sentiment scores may not have been effective in predicting stock price movement and volatility of CVX, it established a novel methodology for analyzing Twitter sentiment data and determining whether it is informative in predicting stock prices. This methodology can be applied to other industries and sectors to gain a better understanding of the role that sentiment plays in stock price movements. The methodology can be useful for multiple groups, such as Public Relations departments in companies like Chevron, who can use this to assess the effectiveness of their publicity campaigns on the company's valuation, leading to higher profits and public influence. Alternatively, environmental groups can use this methodology to measure the effectiveness of their activism campaigns in influencing the trading power of Chevron Stock ownership. This methodology provides a way for various groups to adjust their strategies to influence public sentiment and in turn stock value.
