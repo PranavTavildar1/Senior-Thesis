@@ -220,7 +220,7 @@ This model was initially trained on Wikipedia and Google’s BooksCorpus which c
 
 %%\jy{put negative signs in math mode}
 
-We will be specifically using distil-BERT which is a version of BERT with 12 transformation layers, and 768 Hidden Layers \citep{muller_2022}. This is more reasonable for the task we have at hand and we will implement this using the Hugging Face transformers pipeline package \citep{huggingface2023}. For each day, the average sentiment score of all tweets was calculated. Sentiment scores range from $-1$ to 1, where -1 represents a very negative sentiment and 1 represents a very positive sentiment.
+We will be specifically using distil-BERT which is a version of BERT with 12 transformation layers, and 768 Hidden Layers \citep{muller_2022}. This is more reasonable for the task we have at hand and we will implement this using the Hugging Face transformers pipeline package \citep{huggingface2023}. For each day, the average sentiment score of all tweets was calculated. Sentiment scores range from $-1$ to 1, where $-1$ represents a very negative sentiment and 1 represents a very positive sentiment.
 
 \subsection{ARMA GARCH Modeling}
 The daily returns for CVX were obtained from calculating as the daily logarithmic difference of the closing prices. ARMA-GARCH modeling was then performed to investigate the relationship between the daily returns and the sentiment scores.
@@ -239,7 +239,7 @@ For further analysis, a weighted sentiment score was calculated by assigning a w
 \section{Results}
 \label{sec:results}
 
-The sentiment analysis took approximately 12 minutes to run and the data generated created 3 new columns in the working dataframe: sentiment, label, and score. Score is a numeric value from the range [0,1] where the higher the score the more confident the sentiment analyzed is correct. This score is the confidence that the model gives for the sentiment assignment and serves as a way to observe sentiment as a continuous variable. When combined and observed as a frequency histogram, it seems that the sentiment scores for the period are centered around a slightly positive value of 0.1 indicating sentiment for the CVX term was generally positive but normally distributed more or less.
+The sentiment analysis took approximately 12 minutes to run and the data generated created 3 new columns in the working dataframe: sentiment, label, and score. Score is a numeric value from the range [0,1] where the higher the score the more confident the sentiment analyzed is correct. This score is the confidence that the model gives for the sentiment assignment and serves as a way to observe sentiment as a continuous variable. When combined and observed as a frequency histogram as in Figure~/ref{fig:sentimenthist}, it seems that the sentiment scores for the period are centered around a slightly positive value of 0.1 indicating sentiment for the CVX term was generally positive but normally distributed more or less.
 
 
 \begin{figure}[tbp]
